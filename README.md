@@ -87,6 +87,8 @@ npm run resetdb
 npm i dotenv
 npm i jsonwebtoken
 
+echo "# MACOS" >> .gitignore
+echo ".DS_Store" >> .gitignore
 
 Using JSON Web tokens
 https://bloomtech-1.wistia.com/medias/esmemo7rgd

@@ -1,3 +1,4 @@
+const { status } = require("express/lib/response");
 const { JWT_SECRET } = require("../secrets"); // use this secret!
 
 const restricted = (req, res, next) => {
@@ -68,8 +69,19 @@ const validateRoleName = (req, res, next) => {
       "message": "Role name can not be longer than 32 chars"
     }
   */
-    console.log("rest middleware!")
-    next()
+    // console.log("rest middleware!")
+    // next()
+    // TEST OK: http post :9000/api/auth/register username=foo password=1234 role_name='foo'
+    // TEST ERR: http post :9000/api/auth/register username=foo password=1234 role_name='admin'
+    // TEST ERR: http post :9000/api/auth/register username=foo password=1234 role_name='abcdefghijklmnorstivuxyzabcdefghijklmnorstivuxyz'
+    if(!req.body.role_name || !req.body.role_name.trim()){
+      req.role_name = 'student'
+      next()
+    }else if (req.body.role_name.trim() === 'admin'){
+      next({status: 422, message: "Role name can not be admin"})
+    }else if(req.body.role_name.trim().length > 32){
+      next({status: 422, message:  "Role name can not be longer than 32 chars"})
+    }
 }
 
 module.exports = {
