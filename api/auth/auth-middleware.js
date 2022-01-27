@@ -51,8 +51,13 @@ const only = role_name => (req, res, next) => {
 
     Pull the decoded token from the req object, to avoid verifying it again!
   */
-    console.log("rest middleware!")
-    next()
+    // console.log("only middleware!")
+    // next()
+    if(role_name === req.decodedToken.role_name){
+      next()
+    }else{
+      next({ status: 403, message: 'This is not for you'})
+    }
 }
 
 // TEST: http post :9000/api/auth/login username=bar password=1234
