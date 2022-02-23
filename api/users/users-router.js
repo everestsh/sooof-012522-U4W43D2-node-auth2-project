@@ -17,6 +17,7 @@ const { restricted, only } = require("../auth/auth-middleware.js");
     }
   ]
  */
+// TEST: http :9000/api/users
 router.get("/", restricted, (req, res, next) => { // done for you
   Users.find()
     .then(users => {

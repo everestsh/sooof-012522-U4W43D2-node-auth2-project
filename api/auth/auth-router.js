@@ -2,6 +2,8 @@ const router = require("express").Router();
 const { checkUsernameExists, validateRoleName } = require('./auth-middleware');
 const { JWT_SECRET } = require("../secrets"); // use this secret!
 
+
+// TEST OK: http post :9000/api/auth/register username=foo password=1234 role_name='foo'
 router.post("/register", validateRoleName, (req, res, next) => {
   /**
     [POST] /api/auth/register { "username": "anna", "password": "1234", "role_name": "angel" }
@@ -14,6 +16,11 @@ router.post("/register", validateRoleName, (req, res, next) => {
       "role_name": "angel"
     }
    */
+  try{
+    res.status(201).json("post /api/auth/register")
+  }catch(err){
+    next(err)
+  }
 });
 
 
@@ -37,6 +44,11 @@ router.post("/login", checkUsernameExists, (req, res, next) => {
       "role_name": "admin" // the role of the authenticated user
     }
    */
+    try{
+      res.status(201).json("post /api/auth/login")
+    }catch(err){
+      next(err)
+    }
 });
 
 module.exports = router;

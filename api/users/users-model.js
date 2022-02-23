@@ -17,7 +17,14 @@ function find() {
         "role_name": "instructor"
       }
     ]
+  select user_id, username, role_name
+    from users as u
+    join roles as r
+    on u.role_id = r.role_id;
    */
+  return db('users as u')
+        .join('roles as r', 'u.role_id', 'r.role_id')
+        .select('user_id', 'username', 'role_name')
 }
 
 function findBy(filter) {
@@ -33,7 +40,16 @@ function findBy(filter) {
         "role_name": "admin",
       }
     ]
+  select user_id, username, role_name
+    from users as u
+    join roles as r
+    on u.role_id = r.role_id
+    where u.user_id=1;
    */
+  return db('users as u')
+    .join('roles as r', 'u.role_id', 'r.role_id')
+    .select('user_id', 'username', 'role_name')
+    .where(filter)
 }
 
 function findById(user_id) {
@@ -46,7 +62,16 @@ function findById(user_id) {
       "username": "sue",
       "role_name": "instructor"
     }
+    select user_id, username, role_name
+      from users as u
+      join roles as r
+      on u.role_id = r.role_id
+      where u.user_id=1; 
    */
+  return db('users as u')
+    .join('roles as r', 'u.role_id', 'r.role_id')
+    .select('user_id', 'username', 'role_name')
+    .where('user_id', user_id).first()
 }
 
 /**

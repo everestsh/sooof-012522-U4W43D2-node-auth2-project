@@ -16,6 +16,8 @@ const restricted = (req, res, next) => {
 
     Put the decoded token in the req object, to make life easier for middlewares downstream!
   */
+    console.log("restricted middleware!")
+    next()
 }
 
 const only = role_name => (req, res, next) => {
@@ -29,6 +31,8 @@ const only = role_name => (req, res, next) => {
 
     Pull the decoded token from the req object, to avoid verifying it again!
   */
+  console.log("only middleware!")
+  next()
 }
 
 
@@ -40,9 +44,12 @@ const checkUsernameExists = (req, res, next) => {
       "message": "Invalid credentials"
     }
   */
+  console.log("checkUsernameExists middleware!")
+  next()
 }
-
-
+// TEST OK: http post :9000/api/auth/register username=foo password=1234 role_name='foo'
+// TEST ERR: http post :9000/api/auth/register username=foo password=1234 role_name='admin'
+// TEST ERR: http post :9000/api/auth/register username=foo password=1234 role_name='abcdefghijklmnorstivuxyzabcdefghijklmnorstivuxyz'
 const validateRoleName = (req, res, next) => {
   /*
     If the role_name in the body is valid, set req.role_name to be the trimmed string and proceed.
@@ -62,6 +69,19 @@ const validateRoleName = (req, res, next) => {
       "message": "Role name can not be longer than 32 chars"
     }
   */
+  // console.log("rest middleware!")
+  // next()
+  if(!req.body.role_name || !req.body.role_name.trim()){
+    req.role_name = 'student'
+    return next()
+  }else if(req.body.role_name.trim() === 'admin'){
+    return next({status: 422, message: "Role name can not be admin"})
+  }else if(req.body.role_name.trim().length > 32){
+    return next({status: 422, message: "Role name can not be longer than 32 chars"})
+  }else{
+    req.role_name = req.body.role_name.trim()
+    next()
+  }
 }
 
 module.exports = {
