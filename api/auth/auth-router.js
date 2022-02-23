@@ -69,14 +69,15 @@ router.post("/login", checkUsernameExists, (req, res, next) => {
    */
     try{
       // res.status(201).json("post /api/auth/login")
-      const {password} = req.body
-      console.log("data password =", req.user.password)
-      console.log("body password = ", password)
-      const validPassword = bcrypt.compareSync(password, req.user.password)
-      console.log(validPassword)
+      // const {password} = req.body
+      // console.log("data password =", req.user.password)
+      // console.log("body password = ", password)
+      // const validPassword = bcrypt.compareSync(password, req.user.password)
+      const validPassword = bcrypt.compareSync(req.body.password, req.user.password)
+      // console.log(validPassword)
       if (validPassword){
         const token = makeToken(req.user)
-        return  res.status(200).json({ message: `${req.user.username} is back!`, token, subject: req.user.user_id})
+        return  res.status(201).json({ message: `${req.user.username} is back!`, token, subject: req.user.user_id})
       }else{
         next({ status: 401, message: "Invalid credentials"})
       }
