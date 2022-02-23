@@ -47,6 +47,7 @@ router.post("/register", validateRoleName, async (req, res, next) => {
 
 // TEST ERR: http  post  :9000/api/auth/login username=bonnnxxx password=1234
 // TEST : http  post  :9000/api/auth/login username=bob password=1234
+// http post :9000/api/auth/login username=foo password=1234 role_name='ceo'
 router.post("/login", checkUsernameExists, (req, res, next) => {
   /**
     [POST] /api/auth/login { "username": "sue", "password": "1234" }

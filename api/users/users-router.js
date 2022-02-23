@@ -18,6 +18,7 @@ const { restricted, only } = require("../auth/auth-middleware.js");
   ]
  */
 // TEST: http :9000/api/users
+// http :9000/api/users Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjozLCJ1c2VybmFtZSI6ImZvbyIsInJvbGVfbmFtZSI6InN0dWRlbnQiLCJpYXQiOjE2NDU1ODQwMjcsImV4cCI6MTY0NTY3MDQyN30.bS2SvLNjNs627Jxu0kClFBpynwRtSo7Rn5BhHAlqtBw
 router.get("/", restricted, (req, res, next) => { // done for you
   Users.find()
     .then(users => {
@@ -41,6 +42,8 @@ router.get("/", restricted, (req, res, next) => { // done for you
     }
   ]
  */
+// TEST: http :9000/api/users/1 
+// http :9000/api/users/1 Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjozLCJ1c2VybmFtZSI6ImZvbyIsInJvbGVfbmFtZSI6InN0dWRlbnQiLCJpYXQiOjE2NDU1ODQwMjcsImV4cCI6MTY0NTY3MDQyN30.bS2SvLNjNs627Jxu0kClFBpynwRtSo7Rn5BhHAlqtBw
 router.get("/:user_id", restricted, only('admin'), (req, res, next) => { // done for you
   Users.findById(req.params.user_id)
     .then(user => {
